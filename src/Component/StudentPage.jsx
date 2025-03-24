@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addStudent, editStudent } from "../Features/Studentslice";
 import { useNavigate, useParams } from "react-router-dom";
-import '../Css/StudentPage.css';
-function StudentForm() {
+import '../Styles/StudentPage.css'
+function StudentPage() {
   const { id } = useParams();
   const isEditing = Boolean(id);
   const dispatch = useDispatch();
@@ -69,4 +69,4 @@ function StudentForm() {
   );
 }
 
-export default StudentForm;
+export default StudentPage;
