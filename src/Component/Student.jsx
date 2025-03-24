@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import "../component.css/Student.css"
+import "../componentcss/Student.css"
 function Student() {
   const students = useSelector((state) => state.student.students);
   const navigate = useNavigate();
