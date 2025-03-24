@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addStudent, editStudent } from "../Features/Studentslice";
 import { useNavigate, useParams } from "react-router-dom";
-import "../componentcss/StudentPage.css";
+import "../css/StudentPage.css";
 
 function StudentForm() {
   const { id } = useParams();
