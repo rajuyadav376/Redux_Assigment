@@ -1,76 +1,73 @@
-import React, { useState } from 'react';
-import '../component.css/StudentPage.css'
-function StudentPage() {
-    const [name, setName] = useState("");
-    const [age, setAge] = useState("");
-    const [course, setCourse] = useState("");
-    const [batch, setBatch] = useState("");
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addStudent, editStudent } from "../Features/Studentslice";
+import { useNavigate, useParams } from "react-router-dom";
+import "../component.css/StudentPage.css";
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("Submitted Data:", { name, age, course, batch });
-       
-    };
+function StudentForm() {
+  const { id } = useParams();
+  const isEditing = Boolean(id);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    return (
-        <>
-         
-            <form onSubmit={handleSubmit}>
-                <h1>Student Form :-</h1>
-                <div className='page-container'>
-                    <div className="box1">
-                <div className='name'>
-                    <label htmlFor="name">Name:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        placeholder="Enter your name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                </div>
+  const existingStudent = useSelector((state) =>
+    state.student.students.find((s) => s.id === Number(id))
+  );
 
-                <div className='course'>
-                    <label htmlFor="course">Course:</label>
-                    <input
-                        type="text"
-                        id="course"
-                        placeholder="Enter your Course"
-                        value={course}
-                        onChange={(e) => setCourse(e.target.value)}
-                    />
-                </div>
-                </div>
-        <div className="box2">
-                <div className='age'>
-                    <label htmlFor="age">Age:</label>
-                    <input
-                        type="text"
-                        id="age"
-                        placeholder="Enter your age"
-                        value={age}
-                        onChange={(e) => setAge(e.target.value)}
-                    />
-                </div>
+  const [formData, setFormData] = useState({
+    name: "",
+    age: "",
+    course: "",
+    batch: "",
+    additionalInfo: "", 
+  });
 
-                <div className='batch'>
-                    <label htmlFor="batch">Batch:</label>
-                    <input
-                        type="text"
-                        id="batch"
-                        placeholder="Enter your Batch"
-                        value={batch}
-                        onChange={(e) => setBatch(e.target.value)}
-                    />
-                </div>
-                </div>
+  useEffect(() => {
+    if (isEditing && existingStudent) {
+      setFormData(existingStudent);
+    }
+  }, [isEditing, existingStudent]);
 
-                <button type="submit">Submit</button>
-            </div>
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: name === "age" ? Number(value) : value });
+  };
 
-            </form>
-        </>
-    );
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isEditing) {
+      dispatch(editStudent({ id: Number(id), ...formData }));
+    } else {
+      dispatch(addStudent({ id: Date.now(), ...formData }));
+    }
+    navigate("/students");
+  };
+
+  return (
+    <div className="form-container">
+      <h1>{isEditing ? "Edit Student" : "Add Student"}</h1>
+      <form onSubmit={handleSubmit}>
+        <label>Name:</label>
+        <input type="text"  name="name" value={formData.name} onChange={handleChange} required />
+
+        <label>Age:</label>
+        <input type="number" name="age" value={formData.age} onChange={handleChange} required />
+
+        <label>Course:</label>
+        <input type="text" name="course" value={formData.course} onChange={handleChange} required />
+
+        <label>Batch:</label>
+        <input type="text" name="batch" value={formData.batch} onChange={handleChange} required />
+
+        <div className="button-group">
+          <button type="submit" className="submit-btn">{isEditing ? "Update" : "Submit"}</button>
+          <button type="button" className="cancel-btn" onClick={() => navigate("/students")}>
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 }
 
-export default StudentPage;
+export default StudentForm;

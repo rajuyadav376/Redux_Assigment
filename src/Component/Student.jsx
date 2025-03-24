@@ -1,19 +1,15 @@
-import React from 'react'
-import '../component.css/Student.css'
-import { useState } from 'react';
+import React from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import "../component.css/Student.css"
 function Student() {
-  const [students, setStudents] = useState([
-    { id: 1, name: 'vivek ', age: 18, course: 'MERN', batch: '2024-2025' },
-    { id: 2, name: 'Papu', age: 21, course: 'c++', batch: '2022-2023' },
-    { id: 2, name: 'Kashish Aunty', age: 21, course: 'Java', batch: '2023-2024' },
-  ]);
-   
+  const students = useSelector((state) => state.student.students);
+  const navigate = useNavigate();
+
   return (
-    <div className='student-container'>
-      <div className='btn-container-heading'>
-        <h1> Student details 🧑🏼‍🎓 !! </h1>
-        <button className='add-btn'>Add new students</button>
-      </div>
+    <div>
+      <h1>Student List</h1>
+      <button onClick={() => navigate("/add-student")}>Add Student</button>
       <table>
         <thead>
           <tr>
@@ -21,24 +17,25 @@ function Student() {
             <th>Age</th>
             <th>Course</th>
             <th>Batch</th>
-            <th>change</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-         
-          {students.map(student => (
-          <tr  key={student.id}>
-          <td>{student.name}</td>
-              <td>{student.age}</td>
-              <td>{student.course}</td>
-              <td>{student.batch}</td>
-            <td><a href="#">Edit</a></td>
-          </tr>
-             ))}
+          {students.map((s) => (
+            <tr key={s.id}>
+              <td>{s.name}</td>
+              <td>{s.age}</td>
+              <td>{s.course}</td>
+              <td>{s.batch}</td>
+              <td>
+                <button onClick={() => navigate(`/edit-student/${s.id}`)}>Edit</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
-  )
+  );
 }
 
 export default Student;

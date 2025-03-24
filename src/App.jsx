@@ -1,25 +1,25 @@
-// import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import Home from "./Component/Home";
-// import Navbar from "./Component/Navbar";
-// import Student from "./Component/Student";
-// import Contact from "./Component/Contact";
-
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./Component/Navbar";
+import Home from "./Component/Home";
+import Student from "./Component/Student";
 import StudentPage from "./Component/StudentPage";
-
+import Contact from "./Component/Contact";
 
 function App() {
   return (
-    <>
-      {/* <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/student" element={<Student />} />
-        </Routes>
-      </BrowserRouter> */}
-      <StudentPage/>
-    </>
+    <Router>
+      <Navbar />
+      <Routes>
+      <Route path="/students" element={<Student />} />
+        <Route path="/add-student" element={<StudentPage />} />
+        <Route path="/edit-student/:id" element={<StudentPage/>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/students" element={<Student />} />
+        <Route path="/students/:id" element={<StudentPage />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+    </Router>
   );
 }
 
