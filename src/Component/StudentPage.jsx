@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addStudent, editStudent } from "../Features/Studentslice";
 import { useNavigate, useParams } from "react-router-dom";
-import "../css/StudentPage.css";
-
+import '../Css/StudentPage.css';
 function StudentForm() {
   const { id } = useParams();
   const isEditing = Boolean(id);
